@@ -79,65 +79,41 @@ const Level = {
     Low: 'LOW'
 };
 
-const Channels = {
-    CH0: '0',
-    CH1: '1',
-    CH2: '2',
-    CH3: '3',
-    CH4: '4',
-    CH5: '5',
-    CH6: '6',
-    CH7: '7',
-    CH8: '8',
-    CH9: '9',
-    CH10: '10',
-    CH11: '11',
-    CH12: '12',
-    CH13: '13',
-    CH14: '14',
-    CH15: '15'
-};
-
-const SerialNo = {
-    Serial0: '0',
-    Serial1: '1',
-    Serial2: '2'
-};
-
-const Buadrate = {
-    B4800: '4800',
-    B9600: '9600',
-    B19200: '19200',
-    B38400: '38400',
-    B57600: '57600',
-    B76800: '76800',
-    B115200: '115200'
-};
 
 const Eol = {
     Warp: 'warp',
     NoWarp: 'noWarp'
 };
-
-const Mode = {
-    Input: 'INPUT',
-    Output: 'OUTPUT',
-    InputPullup: 'INPUT_PULLUP'
+//电机端口
+const MOTO = {
+    M1: 'm1',
+    M2: 'm2'
 };
 
-const InterrupMode = {
-    Rising: 'RISING',
-    Falling: 'FALLING',
-    Change: 'CHANGE',
-    Low: 'LOW',
-    High: 'High'
+//遥控按键
+const controlkey = {
+    key1: 'k1',
+    key2: 'k2',
+    key3: 'k3',
+    key4: 'k4',
+    key5: 'k5',
+    key6: 'k6',
+    key7: 'k7',
+    key8: 'k8',
+    key9: 'k9',
+    key10: 'k10',
+    key11: 'k11',
+    key12: 'k12',
 };
 
-const DataType = {
-    Integer: 'INTEGER',
-    Decimal: 'DECIMAL',
-    String: 'STRING'
+//遥控摇杆
+const controlyg = {
+    yg1: 'k1',
+    yg2: 'k2',
+    yg3: 'k3',
+    yg4: 'k4',
 };
+
 
 /**
  * Manage communication with a Arduino esp32 peripheral over a OpenBlock Link client socket.
@@ -214,48 +190,99 @@ class OpenBlockZQ202Device {
             }
         ];
     }
+
+//遥控按键
+get control_key_MENU () {
+    return [
+        {
+            text: '方块',
+            value: controlkey.key1
+        },
+        {
+            text: '叉叉',
+            value: controlkey.key2
+        },
+        {
+            text: '圆圈',
+            value: controlkey.key3
+        },
+        {
+            text: '三角',
+            value: controlkey.key4
+        },
+        {
+            text: '向上',
+            value: controlkey.key5
+        },
+        {
+            text: '向下',
+            value: controlkey.key6
+        },
+        {
+            text: '向左',
+            value: controlkey.key7
+        },
+        {
+            text: '向右',
+            value: controlkey.key8
+        },
+        {
+            text: 'R1',
+            value: controlkey.key9
+        },
+        {
+            text: 'R2',
+            value: controlkey.key10
+        },
+        {
+            text: 'L1',
+            value: controlkey.key11
+        },
+        {
+            text: 'L2',
+            value: controlkey.key12
+        }
+    ];
+}
+//遥控摇杆
+get control_yg_MENU () {
+    return [
+        {
+            text: '左摇杆左右',
+            value: controlyg.yg1
+        },
+        {
+            text: '左摇杆上下',
+            value: controlyg.yg2
+        },
+        {
+            text: '右摇杆左右',
+            value: controlyg.yg3
+        },
+        {
+            text: '右摇杆上下',
+            value: controlyg.yg4
+        }
+    ];
+}
 //输出端口定义
     get OUT_PINS_MENU () {
         return [
             {
-                text: 'P0',
-                value: Pins.IO4
-            },
-            {
-                text: 'P1',
-                value: Pins.IO5
-            },
-            {
-                text: 'P2',
-                value: Pins.IO6
-            },
-            {
-                text: 'P3',
-                value: Pins.IO7
-            },
-            {
-                text: 'P4',
-                value: Pins.IO8
-            },
-            {
-                text: 'P5',
-                value: Pins.IO9
-            },
-            {
-                text: 'P6',
-                value: Pins.IO10
-            },
-            {
-                text: 'S1',
+                text: 'S0',
                 value: Pins.IO0
             },
             {
-                text: 'S2',
+                text: 'S1',
                 value: Pins.IO1
             },
             {
-                text: 'S3',
+                text: 'S2',
                 value: Pins.IO2
+            },
+            {
+                text: 'S3',
+                value: Pins.IO3
             },
             {
                 text: 'S4',
@@ -263,35 +290,7 @@ class OpenBlockZQ202Device {
             }
         ];
     }
-
-    get MODE_MENU () {
-        return [
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.modeMenu.input',
-                    default: 'input',
-                    description: 'label for input pin mode'
-                }),
-                value: Mode.Input
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.modeMenu.output',
-                    default: 'output',
-                    description: 'label for output pin mode'
-                }),
-                value: Mode.Output
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.modeMenu.inputPullup',
-                    default: 'input-pullup',
-                    description: 'label for input-pullup pin mode'
-                }),
-                value: Mode.InputPullup
-            }
-        ];
-    }
+    
 //模拟端口设置
     get ANALOG_PINS_MENU () {
         return [
@@ -330,26 +329,6 @@ class OpenBlockZQ202Device {
             {
                 text: 'P8',
                 value: Pins.IO12
-            },
-            {
-                text: 'P9',
-                value: Pins.IO12
-            },
-            {
-                text: 'S1',
-                value: Pins.IO0
-            },
-            {
-                text: 'S2',
-                value: Pins.IO1
-            },
-            {
-                text: 'S3',
-                value: Pins.IO2
-            },
-            {
-                text: 'S4',
-                value: Pins.IO3
             }
         ];
     }
@@ -367,224 +346,15 @@ class OpenBlockZQ202Device {
         ];
     }
 
-    get LEDC_CHANNELS_MENU () {
+    get LEVEL1_MENU () {
         return [
             {
-                text: 'CH0 (LT0)',
-                value: Channels.CH0
+                text: '打开',
+                value: Level.High
             },
             {
-                text: 'CH1 (LT0)',
-                value: Channels.CH1
-            },
-            {
-                text: 'CH2 (LT1)',
-                value: Channels.CH2
-            },
-            {
-                text: 'CH3 (LT1)',
-                value: Channels.CH3
-            },
-            {
-                text: 'CH4 (LT2)',
-                value: Channels.CH4
-            },
-            {
-                text: 'CH5 (LT2)',
-                value: Channels.CH5
-            },
-            {
-                text: 'CH6 (LT3)',
-                value: Channels.CH6
-            },
-            {
-                text: 'CH7 (LT3)',
-                value: Channels.CH7
-            },
-            {
-                text: 'CH8 (HT0)',
-                value: Channels.CH8
-            },
-            {
-                text: 'CH9 (HT0)',
-                value: Channels.CH9
-            },
-            {
-                text: 'CH10 (HT1)',
-                value: Channels.CH10
-            },
-            {
-                text: 'CH11 (HT1)',
-                value: Channels.CH11
-            },
-            {
-                text: 'CH12 (HT2)',
-                value: Channels.CH12
-            },
-            {
-                text: 'CH13 (HT2)',
-                value: Channels.CH13
-            },
-            {
-                text: 'CH14 (HT3)',
-                value: Channels.CH14
-            },
-            {
-                text: 'CH15 (HT3)',
-                value: Channels.CH15
-            }
-        ];
-    }
-
-    get DAC_PINS_MENU () {
-        return [
-            {
-                text: 'IO25',
-                value: Pins.IO25
-            },
-            {
-                text: 'IO26',
-                value: Pins.IO26
-            }
-        ];
-    }
-
-    get TOUCH_PINS_MENU () {
-        return [
-            {
-                text: 'IO0',
-                value: Pins.IO0
-            },
-            {
-                text: 'IO2',
-                value: Pins.IO2
-            },
-            {
-                text: 'IO4',
-                value: Pins.IO4
-            },
-            {
-                text: 'IO12',
-                value: Pins.IO12
-            },
-            {
-                text: 'IO13',
-                value: Pins.IO13
-            },
-            {
-                text: 'IO14',
-                value: Pins.IO14
-            },
-            {
-                text: 'IO15',
-                value: Pins.IO15
-            },
-            {
-                text: 'IO27',
-                value: Pins.IO27
-            },
-            {
-                text: 'IO32',
-                value: Pins.IO32
-            },
-            {
-                text: 'IO33',
-                value: Pins.IO33
-            }
-        ];
-    }
-
-    get INTERRUP_MODE_MENU () {
-        return [
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.InterrupModeMenu.risingEdge',
-                    default: 'rising edge',
-                    description: 'label for rising edge interrup'
-                }),
-                value: InterrupMode.Rising
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.InterrupModeMenu.fallingEdge',
-                    default: 'falling edge',
-                    description: 'label for falling edge interrup'
-                }),
-                value: InterrupMode.Falling
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.InterrupModeMenu.changeEdge',
-                    default: 'change edge',
-                    description: 'label for change edge interrup'
-                }),
-                value: InterrupMode.Change
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.InterrupModeMenu.low',
-                    default: 'low',
-                    description: 'label for low interrup'
-                }),
-                value: InterrupMode.Low
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.InterrupModeMenu.high',
-                    default: 'high',
-                    description: 'label for high interrup'
-                }),
-                value: InterrupMode.High
-            }
-        ];
-    }
-
-    get SERIAL_NO_MENU () {
-        return [
-            {
-                text: '0',
-                value: SerialNo.Serial0
-            },
-            // {
-            //     text: '1',
-            //     value: SerialNo.Serial1
-            // },
-            {
-                text: '2',
-                value: SerialNo.Serial2
-            }
-        ];
-    }
-
-    get BAUDTATE_MENU () {
-        return [
-            {
-                text: '4800',
-                value: Buadrate.B4800
-            },
-            {
-                text: '9600',
-                value: Buadrate.B9600
-            },
-            {
-                text: '19200',
-                value: Buadrate.B19200
-            },
-            {
-                text: '38400',
-                value: Buadrate.B38400
-            },
-            {
-                text: '57600',
-                value: Buadrate.B57600
-            },
-            {
-                text: '76800',
-                value: Buadrate.B76800
-            },
-            {
-                text: '115200',
-                value: Buadrate.B115200
+                text: '关闭',
+                value: Level.Low
             }
         ];
     }
@@ -592,49 +362,25 @@ class OpenBlockZQ202Device {
     get EOL_MENU () {
         return [
             {
-                text: formatMessage({
-                    id: 'arduinoEsp32.eolMenu.warp',
-                    default: 'warp',
-                    description: 'label for warp print'
-                }),
+                text: '换行',
                 value: Eol.Warp
             },
             {
-                text: formatMessage({
-                    id: 'arduinoEsp32.eolMenu.noWarp',
-                    default: 'no-warp',
-                    description: 'label for no warp print'
-                }),
+                text: '不换行',
                 value: Eol.NoWarp
             }
         ];
     }
 
-    get DATA_TYPE_MENU () {
+    get MOTO_MENU () {
         return [
             {
-                text: formatMessage({
-                    id: 'arduinoEsp32.dataTypeMenu.integer',
-                    default: 'integer',
-                    description: 'label for integer'
-                }),
-                value: DataType.Integer
+                text: '电机1',
+                value: MOTO.M1
             },
             {
-                text: formatMessage({
-                    id: 'arduinoEsp32.dataTypeMenu.decimal',
-                    default: 'decimal',
-                    description: 'label for decimal number'
-                }),
-                value: DataType.Decimal
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoEsp32.dataTypeMenu.string',
-                    default: 'string',
-                    description: 'label for string'
-                }),
-                value: DataType.String
+                text: '电机2',
+                value: MOTO.M2
             }
         ];
     }
@@ -662,7 +408,7 @@ class OpenBlockZQ202Device {
     getInfo () {
         return [
             {
-                id: 'pinZQ202',
+                id: 'pinZQ',
                 name: '控制器',
                 color1: '#4C97FF',
                 color2: '#3373CC',
@@ -670,19 +416,19 @@ class OpenBlockZQ202Device {
 
                 blocks: [
                     {
-                        opcode: 'zq202SetDigitalOutput',
+                        opcode: 'zq202setDigitalOutput',
                         text: '设置端口[PIN]数字输出[LEVEL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'outPins',
-                                defaultValue: Pins.IO4
+                                defaultValue: Pins.IO0
                             },
                             LEVEL: {
                                 type: ArgumentType.STRING,
                                 menu: 'level',
-                                defaultValue: '1'
+                                defaultValue: Level.High
                             }
                         }
                     },
@@ -694,7 +440,7 @@ class OpenBlockZQ202Device {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'outPins',
-                                defaultValue: Pins.IO4
+                                defaultValue: Pins.IO0
                             },
                             OUT: {
                                 type: ArgumentType.NUMBER,
@@ -702,7 +448,6 @@ class OpenBlockZQ202Device {
                             }
                         }
                     },
-                    '---',
                     {
                         opcode: 'zq202readDigitalPin',
                         text:'读取数字端口[PIN]', 
@@ -710,7 +455,7 @@ class OpenBlockZQ202Device {
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
-                                menu: 'outPins',
+                                menu: 'analogPins',
                                 defaultValue: Pins.IO4
                             }
                         }
@@ -729,266 +474,75 @@ class OpenBlockZQ202Device {
                     },
                     '---',
                     {
-
-                        opcode: 'esp32SetServoOutput',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.pins.setServoOutput',
-                            default: 'set servo pin [PIN] use channel [CH] out [OUT]',
-                            description: 'arduinoEsp32 set servo pin out'
-                        }),
+                        opcode: 'zq202qibeng',
+                        text: '设置气泵端口[PIN]状态[LEVEL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'outPins',
-                                defaultValue: Pins.IO2
+                                defaultValue: Pins.IO0
                             },
-                            OUT: {
-                                type: ArgumentType.ANGLE,
-                                defaultValue: '0'
-                            },
-                            CH: {
-                                type: ArgumentType.NUMBER,
-                                menu: 'ledcChannels',
-                                defaultValue: Channels.CH0
+                            LEVEL: {
+                                type: ArgumentType.STRING,
+                                menu: 'level1',
+                                defaultValue: Level.High
                             }
                         }
                     },
-                    '---',
                     {
-
-                        opcode: 'esp32AttachInterrupt',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.pins.esp32AttachInterrupt',
-                            default: 'attach interrupt pin [PIN] mode [MODE] executes',
-                            description: 'arduinoEsp32 attach interrupt'
-                        }),
-                        blockType: BlockType.CONDITIONAL,
+                        opcode: 'zq202buzzer',
+                        text: '设置蜂鸣器状态[LEVEL]',
+                        blockType: BlockType.COMMAND,
                         arguments: {
-                            PIN: {
+                            LEVEL: {
                                 type: ArgumentType.STRING,
-                                menu: 'pins',
-                                defaultValue: Pins.IO2
-                            },
-                            MODE: {
-                                type: ArgumentType.STRING,
-                                menu: 'interruptMode',
-                                defaultValue: InterrupMode.Rising
+                                menu: 'level1',
+                                defaultValue: Level.High
                             }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
+                        }
                     },
                     {
-
-                        opcode: 'esp32DetachInterrupt',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.pins.esp32DetachInterrupt',
-                            default: 'detach interrupt pin [PIN]',
-                            description: 'arduinoEsp32 detach interrupt'
-                        }),
+                        opcode: 'zq202run',
+                        text:'读取运行开关状态', 
+                        blockType: BlockType.BOOLEAN,
+                    },
+                    {
+                        opcode: 'zq202EEPROMupdate',
+                        text: 'EEPROM向地址[PIN]写数据[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'pins',
-                                defaultValue: Pins.IO2
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    }
-                ],
-                menus: {
-                    pins: {
-                        items: this.PINS_MENU
-                    },
-                    outPins: {
-                        items: this.OUT_PINS_MENU
-                    },
-                    mode: {
-                        items: this.MODE_MENU
-                    },
-                    analogPins: {
-                        items: this.ANALOG_PINS_MENU
-                    },
-                    level: {
-                        acceptReporters: true,
-                        items: this.LEVEL_MENU
-                    },
-                    ledcChannels: {
-                        items: this.LEDC_CHANNELS_MENU
-                    },
-                    dacPins: {
-                        items: this.DAC_PINS_MENU
-                    },
-                    touchPins: {
-                        items: this.TOUCH_PINS_MENU
-                    },
-                    interruptMode: {
-                        items: this.INTERRUP_MODE_MENU
-                    }
-                }
-            },
-            {
-                id: 'serial',
-                name: formatMessage({
-                    id: 'arduinoEsp32.category.serial',
-                    default: 'Serial',
-                    description: 'The name of the arduino esp32 device serial category'
-                }),
-                color1: '#9966FF',
-                color2: '#774DCB',
-                color3: '#774DCB',
-
-                blocks: [
-                    {
-                        opcode: 'multiSerialBegin',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.serial.multiSerialBegin',
-                            default: 'serial [NO] begin baudrate [VALUE]',
-                            description: 'arduinoEsp32 multi serial begin'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            NO: {
                                 type: ArgumentType.NUMBER,
-                                menu: 'serialNo',
-                                defaultValue: SerialNo.Serial0
+                                defaultValue: '0'
                             },
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                menu: 'baudrate',
-                                defaultValue: Buadrate.B115200
+                            OUT: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
                             }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
+                        }
                     },
                     {
-                        opcode: 'multiSerialPrint',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.serial.multiSerialPrint',
-                            default: 'serial [NO] print [VALUE] [EOL]',
-                            description: 'arduinoEsp32 multi serial print'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            NO: {
-                                type: ArgumentType.NUMBER,
-                                menu: 'serialNo',
-                                defaultValue: SerialNo.Serial0
-                            },
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'Hello OpenBlock'
-                            },
-                            EOL: {
-                                type: ArgumentType.STRING,
-                                menu: 'eol',
-                                defaultValue: Eol.Warp
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'multiSerialAvailable',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.serial.multiSerialAvailable',
-                            default: 'serial [NO] available data length',
-                            description: 'arduinoEsp32 multi serial available data length'
-                        }),
-                        arguments: {
-                            NO: {
-                                type: ArgumentType.NUMBER,
-                                menu: 'serialNo',
-                                defaultValue: SerialNo.Serial0
-                            }
-                        },
+                        opcode: 'zq202EEPROMread',
+                        text:'EEPROM从地址[PIN]读数据', 
                         blockType: BlockType.REPORTER,
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'multiSerialReadAByte',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.serial.multiSerialReadAByte',
-                            default: 'serial [NO] read a byte',
-                            description: 'arduinoEsp32 multi serial read a byte'
-                        }),
                         arguments: {
-                            NO: {
+                            PIN: {
                                 type: ArgumentType.NUMBER,
-                                menu: 'serialNo',
-                                defaultValue: SerialNo.Serial0
+                                defaultValue: '0'
                             }
-                        },
-                        blockType: BlockType.REPORTER,
-                        programMode: [ProgramModeType.UPLOAD]
-                    }
-                ],
-                menus: {
-                    baudrate: {
-                        items: this.BAUDTATE_MENU
+                        }
                     },
-                    serialNo: {
-                        items: this.SERIAL_NO_MENU
-                    },
-                    eol: {
-                        items: this.EOL_MENU
-                    }
-                }
-            },
-            {
-                id: 'sensor',
-                name: formatMessage({
-                    id: 'arduinoEsp32.category.sensor',
-                    default: 'Sensor',
-                    description: 'The name of the arduino esp32 device sensor category'
-                }),
-                color1: '#4CBFE6',
-                color2: '#2E8EB8',
-                color3: '#2E8EB8',
-
-                blocks: [
                     {
-                        opcode: 'esp32ReadHallSensor',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.sensor.readHallSensor',
-                            default: 'read hall sensor',
-                            description: 'arduino esp32 read hall sensor'
-                        }),
+                        opcode: 'zq202runningTime',
+                        text:'读取系统时间',
                         blockType: BlockType.REPORTER,
                         disableMonitor: true
                     },
                     '---',
                     {
-                        opcode: 'runningTime',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.sensor.runningTime',
-                            default: 'running time (millis)',
-                            description: 'arduino esp32 running time'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true
-                    }
-                ]
-            },
-            {
-                id: 'data',
-                name: formatMessage({
-                    id: 'arduinoEsp32.category.data',
-                    default: 'Data',
-                    description: 'The name of the arduino esp32 device data category'
-                }),
-                color1: '#CF63CF',
-                color2: '#C94FC9',
-                color3: '#BD42BD',
-
-                blocks: [
-                    {
-                        opcode: 'dataMap',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.data.dataMap',
-                            default: 'map [DATA] from ([ARG0], [ARG1]) to ([ARG2], [ARG3])',
-                            description: 'arduinoEsp32 data map'
-                        }),
+                        opcode: 'zq202dataMap',
+                        text: '映射 [DATA] 从([ARG0], [ARG1]) 到 ([ARG2], [ARG3])',
                         blockType: BlockType.REPORTER,
                         arguments: {
                             DATA: {
@@ -1012,92 +566,229 @@ class OpenBlockZQ202Device {
                                 defaultValue: '1000'
                             }
                         },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    '---',
-                    {
-                        opcode: 'dataConstrain',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.data.dataConstrain',
-                            default: 'constrain [DATA] between ([ARG0], [ARG1])',
-                            description: 'arduinoEsp32 data constrain'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '50'
-                            },
-                            ARG0: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '1'
-                            },
-                            ARG1: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '100'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'dataConvert',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.data.dataConvert',
-                            default: 'convert [DATA] to [TYPE]',
-                            description: 'arduinoEsp32 data convert'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.STRING,
-                                defaultValue: '123'
-                            },
-                            TYPE: {
-                                type: ArgumentType.STRING,
-                                menu: 'dataType',
-                                defaultValue: DataType.Integer
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'dataConvertASCIICharacter',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.data.dataConvertASCIICharacter',
-                            default: 'convert [DATA] to ASCII character',
-                            description: 'arduinoEsp32 data convert to ASCII character'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '97'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'dataConvertASCIINumber',
-                        text: formatMessage({
-                            id: 'arduinoEsp32.data.dataConvertASCIINumber',
-                            default: 'convert [DATA] to ASCII nubmer',
-                            description: 'arduinoEsp32 data convert to ASCII nubmer'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'a'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
                     }
                 ],
                 menus: {
-                    dataType: {
-                        items: this.DATA_TYPE_MENU
+                    outPins: {
+                        items: this.OUT_PINS_MENU
+                    },
+                    analogPins: {
+                        items: this.ANALOG_PINS_MENU
+                    },
+                    level: {
+                        acceptReporters: true,
+                        items: this.LEVEL_MENU
+                    },
+                    level1: {
+                        items: this.LEVEL1_MENU
+                    }  
+                }
+            },
+            {
+                id: 'serial',
+                name: '显示',
+                color1: '#9966FF',
+                color2: '#774DCB',
+                color3: '#774DCB',
+
+                blocks: [
+                    {
+                        opcode: 'zq202SerialPrint',
+                        text:'设置串口打印[VALUE] [EOL]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            VALUE: {
+                                type: ArgumentType.STRING,
+                                defaultValue: 'Hello Robot'
+                            },
+                            EOL: {
+                                type: ArgumentType.STRING,
+                                menu: 'eol',
+                                defaultValue: Eol.Warp
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202SerialAvailable',
+                        text:'串口是否有数据可读',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true
+                    },
+                    {
+                        opcode: 'zq202SerialReadAByte',
+                        text: '读取串口数据',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true
+                    },
+                    {
+                        opcode: 'zq202oled',
+                        text: '显示图像',
+                        blockType: BlockType.CONDITIONAL,
+                    },
+                    {
+                        opcode: 'zq202oledprint',
+                        text:'设置屏幕打印[VALUE] [EOL]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            VALUE: {
+                                type: ArgumentType.STRING,
+                                defaultValue: 'Hello Robot'
+                            },
+                            EOL: {
+                                type: ArgumentType.STRING,
+                                menu: 'eol',
+                                defaultValue: Eol.Warp
+                            }
+                        },
+                    },
+                ],
+                menus: {
+                    eol: {
+                        items: this.EOL_MENU
                     }
                 }
+            },
+            {
+                id: 'MOTOR',
+                name: '电机',
+                color1: '#4CBFE6',
+                color2: '#2E8EB8',
+                color3: '#2E8EB8',
+                blocks: [
+                    {
+                        opcode: 'zq202motoInit',
+                        text:'初始化 左电机端口[PIN1] [VALUE1] 右电机端口[PIN2] [VALUE2]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN1: {
+                                type: ArgumentType.STRING,
+                                menu: 'moto',
+                                defaultValue: MOTO.M1
+                            },
+                            VALUE1: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '100'
+                            },
+                            PIN2: {
+                                type: ArgumentType.STRING,
+                                menu: 'moto',
+                                defaultValue: MOTO.M2
+                            },
+                            VALUE2: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '-100'
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202moto',
+                        text:'设置电机端口[PIN] 速度[VALUE] ',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'moto',
+                                defaultValue: MOTO.M1
+                            },
+                            VALUE: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202runmoto',
+                        text:'设置左 电机速度[VALUE1] 右电机速度[VALUE2] ',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            VALUE1: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
+                            },
+                            VALUE2: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202SetServoOutput',
+                        text:'设置舵机端口 [PIN] 输出 [OUT]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'outPins',
+                                defaultValue: Pins.IO0
+                            },
+                            OUT: {
+                                type: ArgumentType.ANGLE,
+                                defaultValue: '0'
+                            }
+                        }
+                    }
+                ],
+                menus: {
+                    moto: {
+                        items: this.MOTO_MENU
+                    },
+                    outPins: {
+                        items: this.OUT_PINS_MENU
+                    }
+                }
+            },
+            {
+                id: 'communications',
+                name: '无线遥控',
+                color1: '#CF63CF',
+                color2: '#C94FC9',
+                color3: '#BD42BD',
+                blocks: [
+                    {
+                        opcode: 'zq202communicationsInit',
+                        text:'初始化无线遥控ID [VALUE]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            VALUE: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0000'
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq20controkey',
+                        text:'读取遥控按键值[PIN] ',
+                        blockType: BlockType.BOOLEAN,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'control',
+                                defaultValue: controlkey.key1
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202runmoto',
+                        text:'读取遥控摇杆[PIN] ',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'controlyg',
+                                defaultValue: controlyg.yg1,
+                            }
+                        },
+                    }
+                ],
+                menus: {
+                    control: {
+                        items: this.control_key_MENU
+                    },
+                    controlyg: {
+                        items: this.control_yg_MENU
+                    }
+                },
             }
         ];
     }
