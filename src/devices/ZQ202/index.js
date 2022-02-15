@@ -286,7 +286,7 @@ get control_yg_MENU () {
             },
             {
                 text: 'S4',
-                value: Pins.IO3
+                value: Pins.IO4
             }
         ];
     }
@@ -507,6 +507,7 @@ get control_yg_MENU () {
                         text:'读取运行开关状态', 
                         blockType: BlockType.BOOLEAN,
                     },
+                    '---',
                     {
                         opcode: 'zq202EEPROMupdate',
                         text: 'EEPROM向地址[PIN]写数据[OUT]',
@@ -536,6 +537,35 @@ get control_yg_MENU () {
                     {
                         opcode: 'zq202runningTime',
                         text:'读取系统时间',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true
+                    },
+                    '---',
+                    {
+                        opcode: 'zq202SerialPrint',
+                        text:'设置串口打印[VALUE] [EOL]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            VALUE: {
+                                type: ArgumentType.STRING,
+                                defaultValue: 'Hello Robot'
+                            },
+                            EOL: {
+                                type: ArgumentType.STRING,
+                                menu: 'eol',
+                                defaultValue: Eol.Warp
+                            }
+                        },
+                    },
+                    {
+                        opcode: 'zq202SerialAvailable',
+                        text:'串口是否有数据可读',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true
+                    },
+                    {
+                        opcode: 'zq202SerialReadAByte',
+                        text: '读取串口数据',
                         blockType: BlockType.REPORTER,
                         disableMonitor: true
                     },
@@ -581,214 +611,11 @@ get control_yg_MENU () {
                     },
                     level1: {
                         items: this.LEVEL1_MENU
-                    }  
-                }
-            },
-            {
-                id: 'serial',
-                name: '显示',
-                color1: '#9966FF',
-                color2: '#774DCB',
-                color3: '#774DCB',
-
-                blocks: [
-                    {
-                        opcode: 'zq202SerialPrint',
-                        text:'设置串口打印[VALUE] [EOL]',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'Hello Robot'
-                            },
-                            EOL: {
-                                type: ArgumentType.STRING,
-                                menu: 'eol',
-                                defaultValue: Eol.Warp
-                            }
-                        },
                     },
-                    {
-                        opcode: 'zq202SerialAvailable',
-                        text:'串口是否有数据可读',
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true
-                    },
-                    {
-                        opcode: 'zq202SerialReadAByte',
-                        text: '读取串口数据',
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true
-                    },
-                    {
-                        opcode: 'zq202oled',
-                        text: '显示图像',
-                        blockType: BlockType.CONDITIONAL,
-                    },
-                    {
-                        opcode: 'zq202oledprint',
-                        text:'设置屏幕打印[VALUE] [EOL]',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'Hello Robot'
-                            },
-                            EOL: {
-                                type: ArgumentType.STRING,
-                                menu: 'eol',
-                                defaultValue: Eol.Warp
-                            }
-                        },
-                    },
-                ],
-                menus: {
                     eol: {
                         items: this.EOL_MENU
-                    }
+                    }  
                 }
-            },
-            {
-                id: 'MOTOR',
-                name: '电机',
-                color1: '#4CBFE6',
-                color2: '#2E8EB8',
-                color3: '#2E8EB8',
-                blocks: [
-                    {
-                        opcode: 'zq202motoInit',
-                        text:'初始化 左电机端口[PIN1] [VALUE1] 右电机端口[PIN2] [VALUE2]',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            PIN1: {
-                                type: ArgumentType.STRING,
-                                menu: 'moto',
-                                defaultValue: MOTO.M1
-                            },
-                            VALUE1: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '100'
-                            },
-                            PIN2: {
-                                type: ArgumentType.STRING,
-                                menu: 'moto',
-                                defaultValue: MOTO.M2
-                            },
-                            VALUE2: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '-100'
-                            }
-                        },
-                    },
-                    {
-                        opcode: 'zq202moto',
-                        text:'设置电机端口[PIN] 速度[VALUE] ',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'moto',
-                                defaultValue: MOTO.M1
-                            },
-                            VALUE: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '0'
-                            }
-                        },
-                    },
-                    {
-                        opcode: 'zq202runmoto',
-                        text:'设置左 电机速度[VALUE1] 右电机速度[VALUE2] ',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE1: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '0'
-                            },
-                            VALUE2: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '0'
-                            }
-                        },
-                    },
-                    {
-                        opcode: 'zq202SetServoOutput',
-                        text:'设置舵机端口 [PIN] 输出 [OUT]',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'outPins',
-                                defaultValue: Pins.IO0
-                            },
-                            OUT: {
-                                type: ArgumentType.ANGLE,
-                                defaultValue: '0'
-                            }
-                        }
-                    }
-                ],
-                menus: {
-                    moto: {
-                        items: this.MOTO_MENU
-                    },
-                    outPins: {
-                        items: this.OUT_PINS_MENU
-                    }
-                }
-            },
-            {
-                id: 'communications',
-                name: '无线遥控',
-                color1: '#CF63CF',
-                color2: '#C94FC9',
-                color3: '#BD42BD',
-                blocks: [
-                    {
-                        opcode: 'zq202communicationsInit',
-                        text:'初始化无线遥控ID [VALUE]',
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '0000'
-                            }
-                        },
-                    },
-                    {
-                        opcode: 'zq20controkey',
-                        text:'读取遥控按键值[PIN] ',
-                        blockType: BlockType.BOOLEAN,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'control',
-                                defaultValue: controlkey.key1
-                            }
-                        },
-                    },
-                    {
-                        opcode: 'zq202runmoto',
-                        text:'读取遥控摇杆[PIN] ',
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'controlyg',
-                                defaultValue: controlyg.yg1,
-                            }
-                        },
-                    }
-                ],
-                menus: {
-                    control: {
-                        items: this.control_key_MENU
-                    },
-                    controlyg: {
-                        items: this.control_yg_MENU
-                    }
-                },
             }
         ];
     }

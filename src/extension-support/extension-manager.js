@@ -42,7 +42,7 @@ const builtinDevices = {
 
     // todo transform these to device extension
     // wedo2: () => require('../extensions/scratch3_wedo2'),
-    // ev3: () => require('../extensions/scratch3_ev3'),
+    //ev3: () => require('../extensions/scratch3_ev3'),
     // boost: () => require('../extensions/scratch3_boost'),
     // gdxfor: () => require('../extensions/scratch3_gdx_for'),
     // makeymakey: () => require('../extensions/scratch3_makeymakey')
